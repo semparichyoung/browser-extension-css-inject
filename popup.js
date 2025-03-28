@@ -7,12 +7,71 @@ function init() {
   const form = document.getElementById('form');
   const textarea = document.getElementById('input-css');
 
+  // AUTO-CLOSE: brackets, quotes
+  const pairs = {
+    '(': ')',
+    '{': '}',
+    '[': ']',
+    '"': '"',
+    "'": "'"
+  };
+
   buttonReset.addEventListener('click', removeAllCustomCSS);
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const css = textarea.value;
     storeCSS(css);
+  });
+
+  textarea.addEventListener('keydown', function(e) {
+    const start = this.selectionStart;
+    const end = this.selectionEnd;
+    const value = this.value;
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      this.value = value.substring(0, start) + "\t" + value.substring(end);
+      this.selectionStart = this.selectionEnd = start + 1;
+    }
+    // ENTER: auto-indent next line
+    else if (e.key === 'Enter') {
+      e.preventDefault();
+
+      const before = value.substring(0, start);
+      const after = value.substring(end);
+
+      const lastChar = before.slice(-1);
+      const nextChar = after[0];
+
+      const lineStart = before.lastIndexOf('\n') + 1;
+      const currentLine = before.slice(lineStart);
+      const indentMatch = currentLine.match(/^[ \t]*/);
+      const currentIndent = indentMatch ? indentMatch[0] : '';
+      const indentUnit = '\t'; // or '  '
+
+      if (lastChar === '{' && nextChar === '}') {
+        // Smart auto-indent inside {}
+        const insert = `\n${currentIndent}${indentUnit}\n${currentIndent}`;
+        this.value = before + insert + after;
+
+        // Set cursor inside the braces, indented
+        const cursorPos = start + 1 + currentIndent.length + indentUnit.length;
+        this.selectionStart = this.selectionEnd = cursorPos;
+      } else {
+        // Regular auto-indent
+        const insert = `\n${currentIndent}`;
+        this.value = before + insert + after;
+        this.selectionStart = this.selectionEnd = start + insert.length;
+      }
+    }
+
+    else if (pairs[e.key] && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      e.preventDefault();
+      const closeChar = pairs[e.key];
+      const insertText = e.key + closeChar;
+      this.value = value.substring(0, start) + insertText + value.substring(end);
+      this.selectionStart = this.selectionEnd = start + 1;
+    }
   });
 
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
