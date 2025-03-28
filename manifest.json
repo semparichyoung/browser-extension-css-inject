@@ -1,19 +1,19 @@
 {
   "manifest_version": 3,
-  "name": "CSS inject",
-  "version": "1.0.0",
+  "name": "CSS Inject - Enhanced",
+  "version": "1.0.1",
+  "description": "A simple Chrome extension to inject CSS into websites, with enable/disable toggle.",
+  "author": "NCG Corp. <engineering@ngc-corp.com>",
+  "homepage_url": "https://github.com/semparichyoung/browser-extension-css-inject",
   "action": {
     "default_icon": {
       "16": "images/icon16.png",
       "24": "images/icon24.png",
       "32": "images/icon32.png"
     },
-    "default_title": "CSS inject",
+    "default_title": "CSS Inject",
     "default_popup": "popup.html"
   },
-  "description": "Very simple chrome extension to inject CSS into websites",
-  "author": "NCG Corp. <engineering@ngc-corp.com>",
-  "homepage_url": "https://github.com/ngc-corp/browser-extension-css-inject",
   "permissions": [
     "activeTab",
     "storage"
@@ -24,5 +24,10 @@
       "js": ["inject.js"]
     }
   ],
+  "icons": {
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
   "offline_enabled": true
 }

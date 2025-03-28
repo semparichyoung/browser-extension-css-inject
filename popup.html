@@ -6,15 +6,27 @@
   <title>CSS inject</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" media="screen" href="popup.css">
-  <script src="popup.js"></script>
 </head>
 <body>
-  <div class="container">
-    <form id="form">
-      <textarea id="input-css"></textarea>
-      <button>Save custom styles</button>
-    </form>
-    <button id="reset">Delete custom styles</button>
+  <h2>CSS Injector</h2>
+
+  <div class="toggle-container container">
+    <span class="toggle-label">Injection:</span>
+    <label class="switch">
+      <input type="checkbox" id="toggle-css" />
+      <span class="slider"></span>
+    </label>
+    <span id="status-text" class="status">Checking...</span>
   </div>
+
+  <form id="form">
+    <textarea id="input-css" placeholder="Enter your CSS here..."></textarea>
+    <div>
+      <button type="submit">Apply</button>
+      <button type="button" id="reset">Reset</button>
+    </div>
+  </form>
+
+  <script src="popup.js"></script>
 </body>
 </html>
